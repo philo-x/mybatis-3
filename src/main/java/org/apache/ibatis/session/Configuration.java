@@ -159,6 +159,11 @@ public class Configuration {
   protected final Set<String> loadedResources = new HashSet<>();
   protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");
 
+  /**
+   * xml是按照从文件头到文件尾的顺序解析的，
+   * 但是有时候在解析一个节点时， 会引用定义在该节点之后的、还未解析的节点，这就会导致解析失败井抛出 IncompleteElementException 。
+   * 根据抛出异常的节点不同， MyBatis 会创建不同 的＊Resolver 对象， 井添加到 Configuration的不同 incomplete＊集合中。
+   */
   protected final Collection<XMLStatementBuilder> incompleteStatements = new LinkedList<>();
   protected final Collection<CacheRefResolver> incompleteCacheRefs = new LinkedList<>();
   protected final Collection<ResultMapResolver> incompleteResultMaps = new LinkedList<>();
